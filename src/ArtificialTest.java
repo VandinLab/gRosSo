@@ -323,7 +323,7 @@ public class ArtificialTest {
      * @param  epsilon  the emerging threshold
      * @param  fileOut  the output file
      */
-    void executeEP(double theta, double epsilon, String fileOut) throws IOException {
+    void executeEP(double theta, double epsilon, String fileOut, boolean gt) throws IOException {
         String fileC = datasets[datasets.length-1].split("\\.txt")[0];
         fileC+=(System.currentTimeMillis())+"_mined.txt";
         mining(datasets[datasets.length-1],fileC,theta);
@@ -331,6 +331,7 @@ public class ArtificialTest {
         for(int j=datasets.length-2;j>=0;j--){
             exploreDatasetEP(j,epsilon);
         }
+        if(gt) System.out.println("GT EP: " + candidate.size());
         write(fileOut);
         File del = new File(fileC);
         del.delete();
@@ -342,7 +343,7 @@ public class ArtificialTest {
      * @param  alpha    the error threshold
      * @param  fileOut  the output file
      */
-    void executeSP(double theta, double alpha, String fileOut) throws IOException {
+    void executeSP(double theta, double alpha, String fileOut, boolean gt) throws IOException {
         String fileC = datasets[0].split("\\.txt")[0];
         fileC+=(System.currentTimeMillis())+"_mined.txt";
         mining(datasets[0],fileC,theta);
@@ -350,6 +351,7 @@ public class ArtificialTest {
         for(int j=1;j<datasets.length;j++){
             exploreDatasetSP(j,alpha,theta);
         }
+        if(gt) System.out.println("GT SP: " + candidate.size());
         write(fileOut);
         File del = new File(fileC);
         del.delete();
@@ -361,7 +363,7 @@ public class ArtificialTest {
      * @param  epsilon  the emerging threshold
      * @param  fileOut  the output file
      */
-    void executeDP(double theta, double epsilon, String fileOut) throws IOException {
+    void executeDP(double theta, double epsilon, String fileOut, boolean gt) throws IOException {
         String fileC = datasets[0].split("\\.txt")[0];
         fileC+=(System.currentTimeMillis())+"_mined.txt";
         mining(datasets[0],fileC,theta);
@@ -369,6 +371,7 @@ public class ArtificialTest {
         for(int j=1;j<datasets.length;j++){
             exploreDatasetDP(j,epsilon);
         }
+        if(gt) System.out.println("GT DP: " + candidate.size());
         write(fileOut);
         File del = new File(fileC);
         del.delete();
@@ -425,18 +428,23 @@ public class ArtificialTest {
         double alpha = 0.1;
         double epsilon = 0.01;
 
+        System.out.println("Theta: " + theta);
+        System.out.println("Alpha: " + alpha);
+        System.out.println("Epsilon: " + epsilon);
+
         // Create ground truth for the EP
         ArtificialTest at = new ArtificialTest(datasets,size);
-        at.executeEP(theta,epsilon,"../data/GT_EP.txt");
+        at.executeEP(theta,epsilon,"../data/GT_EP.txt",true);
         // Create ground truth for the DP
         at = new ArtificialTest(datasets,size);
-        at.executeDP(theta,epsilon,"../data/GT_DP.txt");
+        at.executeDP(theta,epsilon,"../data/GT_DP.txt",true);
         // Create ground truth for the SP
         at = new ArtificialTest(datasets,size);
-        at.executeSP(theta,alpha,"../data/GT_SP.txt");
+        at.executeSP(theta,alpha,"../data/GT_SP.txt",true);
 
         // Create 5 random sequences with fixed seed for reproducibility with size replicationFactor*originalSize
         int replicationFactor = 1;
+        System.out.println("Replication Factor for Random Datasets: " + replicationFactor);
         int[] sampleSize = {290287*replicationFactor,331117*replicationFactor,326668*replicationFactor};
         for(int j=0;j<datasets.length;j++) {
             for (int i = 1; i < 6; i++) {
@@ -449,13 +457,13 @@ public class ArtificialTest {
             String[] samples = {"../data/sample2005t1_"+i+".txt", "../data/sample2005t2_"+i+".txt", "../data/sample2005t3_"+i+".txt"};
             // Mining of the EP using the observed frequencies in the samples
             at = new ArtificialTest(samples,size);
-            at.executeEP(theta,epsilon,"../data/sample_"+i+"_EP_freq.txt");
+            at.executeEP(theta,epsilon,"../data/sample_"+i+"_EP_freq.txt",false);
             // Mining of the DP using the observed frequencies in the samples
             at = new ArtificialTest(samples,size);
-            at.executeDP(theta,epsilon,"../data/sample_"+i+"_DP_freq.txt");
+            at.executeDP(theta,epsilon,"../data/sample_"+i+"_DP_freq.txt",false);
             // Mining of the SP using the observed frequencies in the samples
             at = new ArtificialTest(samples,size);
-            at.executeSP(theta,alpha,"../data/sample_"+i+"_SP_freq.txt");
+            at.executeSP(theta,alpha,"../data/sample_"+i+"_SP_freq.txt",false);
 
             // Mining of the EP using gRosSo in the samples
             EP ep = new EP(samples);

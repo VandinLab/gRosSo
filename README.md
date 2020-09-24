@@ -1,6 +1,6 @@
 # gRosSo: Mining Statistically Robust Patterns from a Sequence of Datasets
 ## Authors: Andrea Tonon (andrea.tonon@dei.unipd.it) and Fabio Vandin (fabio.vandin@unipd.it)
-This repository contains the implementation of the algorithms introduced in the IEEE ICDM 2020 paper *gRosSo: Mining Statistically Robust Patterns from a Sequence of Datasets* and the code that has been used to test their performance.
+This repository contains the implementation of the algorithms introduced in the IEEE ICDM 2020 paper *gRosSo: Mining Statistically Robust Patterns from a Sequence of Datasets*, the code that has been used to test their performance, and an extended versione of the [paper](GROSSO_full.pdf). 
 
 The code has been developed in Java and executed using version 1.8.0_201. 
 To mine sequential patterns, we used the PrefixSpan implementation provided by the [SPMF library](https://www.philippe-fournier-viger.com/spmf/). We also used the [fastutil library](http://fastutil.di.unimi.it) that provides type-specific maps, sets, lists and queues with a small memory footprint and fast access and insertion, for the data structures.
@@ -92,14 +92,12 @@ The parameters (epsilon, delta, theta, and the input/output datasets) must be ch
 
 If you want to mine the emerging sequential patterns considering a minimum frequency threshold, you have to change the source code, following the instructions in the file.   
 
-The program writes to the standard output the results shown in Table 4 of the paper.
+The program stores in the output file the EP mined. The results are shown in Table 4 of the paper.
 
-If you prefer to launch the execution in background storing the standard output of the class in a file, execute:
+If you prefer to launch the execution in background, execute:
 ```
-java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. EP > EPTest.txt &
+java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. EP &
 ``` 
-where EPTest.txt is the file to store the standard output of the class.
-
 #### Descending Sequential Patterns
 Usage:
 ```
@@ -112,14 +110,12 @@ The parameters (epsilon, delta, theta, and the input/output datasets) must be ch
 
 If you want to mine the descending sequential patterns considering a minimum frequency threshold, you have to change the source code, following the instructions in the file.   
 
-The program writes to the standard output the results shown in Table 4 of the paper.
+The program stores in the output file the DP mined. The results are shown in Table 4 of the paper.
 
-If you prefer to launch the execution in background storing the standard output of the class in a file, execute:
+If you prefer to launch the execution in background, execute:
 ```
-java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. DP > DPTest.txt &
+java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. DP &
 ``` 
-where DPTest.txt is the file to store the standard output of the class.
-
 #### Stable Sequential Patterns
 Usage:
 ```
@@ -130,16 +126,14 @@ java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. SP
 
 The parameters (alpha, delta, theta, and the input/output datasets) must be changed directly in the source code. Remember to re-compile if you modified the source code.
   
-The program writes to the standard output the results shown in Table 5 of the paper.
+The program stores in the output file the SP mined. The results are shown in Table 5 of the paper.
 
-If you prefer to launch the execution in background storing the standard output of the class in a file, execute:
+If you prefer to launch the execution in background, execute:
 ```
-java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. SP > SPTest.txt &
+java -XmxRG -cp ../lib/fastutil-8.3.1.jar:. SP &
 ``` 
-where SPTest.txt is the file to store the standard output of the class.
-
-## gRosSo with other Datasets
-If you want to execute gRosSo using your own datasets to mine statistically robust sequential patterns, you can follow the instructions to reproduce the experiments of the paper on real datasets, changing the input/output datasets and the desired parameters for the execution directly in the source code.  
+## Execute gRosSo with other Datasets
+If you want to execute gRosSo using your own datasets to mine statistically robust sequential patterns, you can follow the instructions to reproduce the experiments of the paper on real datasets, changing the input/output datasets and the desired parameters for the execution directly in the source code. Remember to re-compile if you modified the source code. The dataset must be in the [SPMF format](http://www.philippe-fournier-viger.com/spmf/PrefixSpan.php). 
 	
 ## License
 This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.

@@ -44,7 +44,6 @@ public class SP {
      * @param  file  the output file
      */
     private void write(String file) throws IOException {
-        System.out.println("Stable Sequential Patterns Found: " + candidate.size());
         FileWriter fw = new FileWriter(file);
         BufferedWriter bw = new BufferedWriter(fw);
         for (String sp: candidate.keySet()) {
